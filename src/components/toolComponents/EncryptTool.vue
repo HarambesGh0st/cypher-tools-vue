@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { encrypt, generateKey } from '@/cryptoUtils'
-import { ref } from 'vue'
+import { provide, ref } from 'vue'
 import type { Ref } from 'vue'
 import FileInput from './FileInput.vue'
 
 const decryptLink: Ref<string | undefined> = ref(undefined)
 const isPending: Ref<boolean> = ref(false)
 const file: Ref<File | undefined> = ref(undefined)
+provide('decryptLink', decryptLink)
 
 const encryptFile = async (file: File | undefined) => {
   console.log(file)
@@ -43,9 +44,10 @@ const encryptFile = async (file: File | undefined) => {
   <div class="h-full flex justify-center items-center overflow-hidden">
     <FileInput
       title="Encrypt a File"
+      message="Select a file to start encryption."
       buttonText="Encrypt"
       :processFile="encryptFile"
-      :decryptLink="decryptLink"
+      :isPending="isPending"
     />
     <DecryptionLinkModal />
   </div>

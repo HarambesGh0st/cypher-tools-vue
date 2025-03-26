@@ -3,9 +3,9 @@ import { ref, type Ref } from 'vue'
 import FileInput from './FileInput.vue'
 import { decrypt, importKey } from '../../cryptoUtils'
 
-const isPending: Ref<Boolean> = ref(false)
+const isPending = ref(false)
 
-const decryptFile = async (file: File) => {
+const decryptFile = async (file: File | undefined) => {
   if (!file) {
     alert('Error: No file selected.')
   }
@@ -34,6 +34,12 @@ const decryptFile = async (file: File) => {
 </script>
 <template>
   <div class="h-full flex justify-center items-center overflow-hidden">
-    <FileInput title="Decrypt a File" buttonText="Decrypt" :processFile="decryptFile" />
+    <FileInput
+      title="Decrypt a File"
+      message="Select a file to start decryption."
+      buttonText="Decrypt"
+      :processFile="decryptFile"
+      :isPending="isPending"
+    />
   </div>
 </template>
