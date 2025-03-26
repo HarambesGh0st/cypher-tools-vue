@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, type Ref } from 'vue'
 import FileInput from './FileInput.vue'
-import { decrypt, importKey } from '../../cryptoUtils'
+import { decrypt, importKey, decryptKeyString } from '../../cryptoUtils'
 
 const isPending = ref(false)
 
@@ -12,7 +12,7 @@ const decryptFile = async (file: File | undefined) => {
   isPending.value = true
   // get the jwk from the url
   const fragment = window.location.hash.slice(1)
-  const encryptionKey = fragment
+  const encryptionKey = await decryptKeyString(fragment)
   console.log(encryptionKey)
   const cryptoKey = await importKey(encryptionKey)
   const fileBuffer = await file!.arrayBuffer()

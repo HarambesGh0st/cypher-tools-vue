@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, watch, type Ref } from 'vue'
 import PadlockSpinner from './PadlockSpinner.vue'
-import PrimaryButton from '../butons/PrimaryButton.vue'
+import PrimaryButton from '../buttons/PrimaryButton.vue'
 import ToolContainer from './ToolContainer.vue'
 
 const props = defineProps<{
@@ -34,12 +34,12 @@ const resetTool = () => {
   selectedFile.value = undefined
   decryptLink!.value = undefined // need to handle this wih provide / inject
 }
-watch(
-  () => decryptLink?.value,
-  (newVal) => {
-    console.log('decryptLink updated:', newVal)
-  },
-)
+// watch(
+//   () => decryptLink?.value,
+//   (newVal) => {
+//     console.log('decryptLink updated:', newVal)
+//   },
+// )
 </script>
 
 <template>

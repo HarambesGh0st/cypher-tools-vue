@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import { encrypt, generateKey } from '@/cryptoUtils'
+import { encrypt, encryptKeyString, encryptString, generateKey } from '@/cryptoUtils'
 import { provide, ref } from 'vue'
 import type { Ref } from 'vue'
 import FileInput from './FileInput.vue'
 
 const decryptLink: Ref<string | undefined> = ref(undefined)
 const isPending: Ref<boolean> = ref(false)
-const file: Ref<File | undefined> = ref(undefined)
 provide('decryptLink', decryptLink)
 
 const encryptFile = async (file: File | undefined) => {
@@ -23,6 +22,7 @@ const encryptFile = async (file: File | undefined) => {
     const encryptedFileBuffer = await encrypt(iv, key, fileBuffer)
     // generate decrypt link
     const exportedKey = await window.crypto.subtle.exportKey('jwk', key)
+    const encryptedKeyString = await encryptKeyString(exportedKey.k!)
     // construct file for download
     const blob = new Blob([iv, encryptedFileBuffer], {
       type: file!.type,
@@ -34,7 +34,7 @@ const encryptFile = async (file: File | undefined) => {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      decryptLink.value = `${window.location.origin}/decrypt#${exportedKey.k}`
+      decryptLink.value = `${window.location.origin}/decrypt#${encryptedKeyString}`
       isPending.value = false
     }, 1000)
   })
