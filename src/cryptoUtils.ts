@@ -1,3 +1,8 @@
+export const genIv = () => {
+  const iv = window.crypto.getRandomValues(new Uint8Array(12))
+  return iv
+}
+
 export const generateKey = async () => {
   const generatedKey = await window.crypto.subtle.generateKey(
     {
@@ -47,7 +52,42 @@ export const importKey = async (encryptionKey: string) => {
       length: 256,
     },
     false,
-    ['decrypt'],
+    ['encrypt', 'decrypt'],
   )
   return cryptoKey
+}
+
+export const encryptKeyString = async (rawKeyString: string) => {
+  const cryptoKey = await importKey(import.meta.env.VITE_ENCRYPTION_KEY)
+  const iv = genIv()
+  const encodedString = new TextEncoder().encode(rawKeyString)
+
+  const encryptedKeyString = await window.crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv },
+    cryptoKey,
+    encodedString,
+  )
+
+  const toBase64Url = (buffer: ArrayBuffer | Uint8Array) =>
+    btoa(String.fromCharCode(...new Uint8Array(buffer)))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '')
+
+  return `${toBase64Url(encryptedKeyString)}.${toBase64Url(iv)}`
+}
+export const decryptKeyString = async (encryptedKeyString: string) => {
+  const [encryptedData, iv] = encryptedKeyString.split('.').map((part) => {
+    return Uint8Array.from(atob(part.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0))
+  })
+
+  const cryptoKey = await importKey(import.meta.env.VITE_ENCRYPTION_KEY)
+
+  const decryptedBuffer = await window.crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv },
+    cryptoKey,
+    encryptedData,
+  )
+
+  return new TextDecoder().decode(decryptedBuffer)
 }

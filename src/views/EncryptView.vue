@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import EncryptTool from '../components/toolComponents/EncryptTool.vue'
 </script>
 <template>

@@ -1,18 +1,18 @@
 <script lang="ts" setup>
 import { ref, type Ref } from 'vue'
 import FileInput from './FileInput.vue'
-import { decrypt, importKey } from '../../cryptoUtils'
+import { decrypt, importKey, decryptKeyString } from '../../cryptoUtils'
 
-const isPending: Ref<Boolean> = ref(false)
+const isPending = ref(false)
 
-const decryptFile = async (file: File) => {
+const decryptFile = async (file: File | undefined) => {
   if (!file) {
     alert('Error: No file selected.')
   }
   isPending.value = true
   // get the jwk from the url
   const fragment = window.location.hash.slice(1)
-  const encryptionKey = fragment
+  const encryptionKey = await decryptKeyString(fragment)
   console.log(encryptionKey)
   const cryptoKey = await importKey(encryptionKey)
   const fileBuffer = await file!.arrayBuffer()
@@ -34,6 +34,12 @@ const decryptFile = async (file: File) => {
 </script>
 <template>
   <div class="h-full flex justify-center items-center overflow-hidden">
-    <FileInput title="Decrypt a File" buttonText="Decrypt" :processFile="decryptFile" />
+    <FileInput
+      title="Decrypt a File"
+      message="Select a file to start decryption."
+      buttonText="Decrypt"
+      :processFile="decryptFile"
+      :isPending="isPending"
+    />
   </div>
 </template>
