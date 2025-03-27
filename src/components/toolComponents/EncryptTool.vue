@@ -3,9 +3,11 @@ import { encrypt, encryptKeyString, generateKey } from '@/cryptoUtils'
 import { provide, ref } from 'vue'
 import type { Ref } from 'vue'
 import FileInput from './FileInput.vue'
+import { useNotificationStore } from '@/stores/notificationStore'
 
 const decryptLink: Ref<string | undefined> = ref(undefined)
 const isPending: Ref<boolean> = ref(false)
+const notificationStore = useNotificationStore()
 provide('decryptLink', decryptLink)
 
 const encryptFile = async (file: File | undefined) => {
@@ -36,13 +38,21 @@ const encryptFile = async (file: File | undefined) => {
         document.body.removeChild(link)
         decryptLink.value = `${window.location.origin}/decrypt#${encryptedKeyString}`
         isPending.value = false
-        alert(`Successfully decrypted file`)
+        notificationStore.addNotification({
+          message: `Encryption succesful.`,
+          status: 'success',
+          autoClear: true,
+        })
       }, 1000)
     })
   } catch (error) {
     isPending.value = false
-    console.log('Error: ', error)
-    alert(`Error: ${error}`)
+    console.error(error)
+    notificationStore.addNotification({
+      message: `encryption failed`,
+      status: 'error',
+      autoClear: true,
+    })
   }
 }
 </script>

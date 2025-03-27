@@ -2,7 +2,9 @@
 import { ref, type Ref } from 'vue'
 import FileInput from './FileInput.vue'
 import { decrypt, importKey, decryptKeyString } from '../../cryptoUtils'
+import { useNotificationStore } from '@/stores/notificationStore'
 
+const notificationStore = useNotificationStore()
 const isPending = ref(false)
 
 const decryptFile = async (file: File | undefined) => {
@@ -31,12 +33,20 @@ const decryptFile = async (file: File | undefined) => {
       link.click()
       document.body.removeChild(link)
       isPending.value = false
-      alert(`Successfully decrypted file`)
+      notificationStore.addNotification({
+        message: `Decryption succesful.`,
+        status: 'success',
+        autoClear: true,
+      })
     }, 1000)
   } catch (error) {
     isPending.value = false
     console.log('Error: ', error)
-    alert(`Error: ${error}`)
+    notificationStore.addNotification({
+      message: `Decryption failed.`,
+      status: 'error',
+      autoClear: true,
+    })
   }
 }
 </script>
