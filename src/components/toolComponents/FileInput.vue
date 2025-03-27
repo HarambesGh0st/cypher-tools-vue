@@ -66,8 +66,8 @@ const resetTool = () => {
           Send the encrypted file along with the link below to your intended recipient. Using only
           the unique link allows the recipient to decrypt and download the file.
         </p>
-        <div class="flex justify-center space-x-1">
-          <a class="w-4/6 h-8 border border-zinc-300 p-1 text-ellipsis overflow-hidden">{{
+        <div class="flex justify-center space-x-1 w-5/6">
+          <a class="h-8 border border-zinc-300 p-1 text-ellipsis overflow-hidden">{{
             decryptLink
           }}</a>
           <button
