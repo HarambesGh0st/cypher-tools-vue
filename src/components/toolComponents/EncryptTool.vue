@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { encrypt, encryptKeyString, encryptString, generateKey } from '@/cryptoUtils'
+import { encrypt, encryptKeyString, generateKey } from '@/cryptoUtils'
 import { provide, ref } from 'vue'
 import type { Ref } from 'vue'
 import FileInput from './FileInput.vue'
