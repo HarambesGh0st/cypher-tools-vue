@@ -62,14 +62,16 @@ const resetTool = () => {
         v-else-if="decryptLink"
         class="w-5/6 flex flex-col justify-center items-center space-y-5"
       >
-        <p class="text-center text-sm text-zinc-900">
+        <p class="text-center text-sm text-charcoal">
           Send the encrypted file along with the link below to your intended recipient. Using only
           the unique link allows the recipient to decrypt and download the file.
         </p>
+
         <div class="flex justify-center space-x-1 w-5/6">
           <a class="h-8 border border-zinc-300 p-1 text-ellipsis overflow-hidden">{{
             decryptLink
           }}</a>
+
           <button
             class="border border-[#054dff] h-8 p-1 bg-zinc-100 text-[#054dff] rounded-xs text-center flex justify-center items-center"
             @click.prevent="copyToClipboard(decryptLink)"
@@ -77,6 +79,10 @@ const resetTool = () => {
             Copy
           </button>
         </div>
+        <p class="text-center text-sm text-orange-700">
+          Warning: Ensure you have copied and saved this link as you will not be able to recover it
+          after you continue.
+        </p>
         <PrimaryButton @click="resetTool"> Encrypt another file </PrimaryButton>
       </div>
       <div v-else-if="selectedFile && isPending">
