@@ -1,4 +1,4 @@
-<script setup></script>
+<script setup lang="ts"></script>
 <template>
   <div
     class="bg-linear-to-r from-saphire-300 to-saphire-100 w-1/2 h-2/3 flex flex-col justify-center items-center rounded-xs p-1 shadow-zinc-900/30 shadow-xl"
