@@ -3,41 +3,57 @@ import { encrypt, encryptKeyString, generateKey } from '@/cryptoUtils'
 import { provide, ref } from 'vue'
 import type { Ref } from 'vue'
 import FileInput from './FileInput.vue'
+import { useNotificationStore } from '@/stores/notificationStore'
 
 const decryptLink: Ref<string | undefined> = ref(undefined)
 const isPending: Ref<boolean> = ref(false)
+const notificationStore = useNotificationStore()
 provide('decryptLink', decryptLink)
 
 const encryptFile = async (file: File | undefined) => {
-  console.log(file)
-  if (!file) {
-    alert('Error: No file selected.')
-  }
-  isPending.value = true
+  try {
+    if (!file) {
+      throw new Error('No file selected.')
+    }
+    isPending.value = true
 
-  const fileBuffer = await file!.arrayBuffer() // file to byte array
-  const iv = window.crypto.getRandomValues(new Uint8Array(12)) // create initialization vector
-  generateKey().then(async (key) => {
-    // encrypt file
-    const encryptedFileBuffer = await encrypt(iv, key, fileBuffer)
-    // generate decrypt link
-    const exportedKey = await window.crypto.subtle.exportKey('jwk', key)
-    const encryptedKeyString = await encryptKeyString(exportedKey.k!)
-    // construct file for download
-    const blob = new Blob([iv, encryptedFileBuffer], {
-      type: file!.type,
+    const fileBuffer = await file!.arrayBuffer() // file to byte array
+    const iv = window.crypto.getRandomValues(new Uint8Array(12)) // create initialization vector
+    generateKey().then(async (key) => {
+      // encrypt file
+      const encryptedFileBuffer = await encrypt(iv, key, fileBuffer)
+      // generate decrypt link
+      const exportedKey = await window.crypto.subtle.exportKey('jwk', key)
+      const encryptedKeyString = await encryptKeyString(exportedKey.k!)
+      // construct file for download
+      const blob = new Blob([iv, encryptedFileBuffer], {
+        type: file!.type,
+      })
+      setTimeout(() => {
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = `enc-${file!.name}`
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        decryptLink.value = `${window.location.origin}/decrypt#${encryptedKeyString}`
+        isPending.value = false
+        notificationStore.addNotification({
+          message: `Encryption succesful.`,
+          status: 'success',
+          autoClear: true,
+        })
+      }, 1000)
     })
-    setTimeout(() => {
-      const link = document.createElement('a')
-      link.href = URL.createObjectURL(blob)
-      link.download = `enc-${file!.name}`
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      decryptLink.value = `${window.location.origin}/decrypt#${encryptedKeyString}`
-      isPending.value = false
-    }, 1000)
-  })
+  } catch (error) {
+    isPending.value = false
+    console.error(error)
+    notificationStore.addNotification({
+      message: `encryption failed`,
+      status: 'error',
+      autoClear: true,
+    })
+  }
 }
 </script>
 <template>

@@ -17,9 +17,9 @@ const router = createRouter({
       component: EncryptView,
     },
     { path: '/decrypt', name: 'decrypt', component: DecryptView },
-    { path: '/keygen', name: 'keygen', component: () => import('../views/AboutView.vue') },
-    { path: '/pricing', name: 'pricing', component: () => import('../views/AboutView.vue') },
-    { path: '/book-demo', name: 'book-demo', component: () => import('../views/AboutView.vue') },
+    // { path: '/keygen', name: 'keygen', component: () => import('../views/AboutView.vue') },
+    // { path: '/pricing', name: 'pricing', component: () => import('../views/AboutView.vue') },
+    // { path: '/book-demo', name: 'book-demo', component: () => import('../views/AboutView.vue') },
   ],
 })
 

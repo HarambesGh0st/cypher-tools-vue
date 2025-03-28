@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import Notifications from '@/components/layoutComponents/Notifications.vue'
 const links = [
   { path: '/', text: 'Home' },
   { path: '/encrypt', text: 'Encrypt' },
@@ -35,6 +36,7 @@ const links = [
     <div class="p-10 w-3/4">
       <RouterView />
     </div>
+    <Notifications />
   </main>
 </template>
 
