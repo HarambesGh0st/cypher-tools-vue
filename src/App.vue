@@ -5,7 +5,8 @@ const links = [
   { path: '/', text: 'Home' },
   { path: '/encrypt', text: 'Encrypt' },
   { path: '/decrypt', text: 'Decrypt' },
-  { path: '/keygen', text: 'Key Generator' },
+  { path: '/stream', text: 'Stream' },
+  // { path: '/keygen', text: 'Key Generator' },
   { path: '/pricing', text: 'Pricing' },
   { path: '/book-demo', text: 'Book a Demo' },
 ]
@@ -33,7 +34,7 @@ const links = [
         </RouterLink>
       </nav>
     </div>
-    <div class="p-10 w-3/4">
+    <div class="p-10 w-full">
       <RouterView />
     </div>
     <Notifications />

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, type Ref } from 'vue'
 import FileInput from './FileInput.vue'
-import { decrypt, importKey, decryptKeyString } from '../../cryptoUtils'
+import { decrypt, importKey, decryptKeyString } from '../../utils/CryptoUtils'
 import { useNotificationStore } from '@/stores/notificationStore'
 
 const notificationStore = useNotificationStore()
