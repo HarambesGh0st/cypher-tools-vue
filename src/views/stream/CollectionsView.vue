@@ -17,7 +17,7 @@ type Collection = {
 const collections: Ref<Collection[]> = ref([])
 
 onMounted(async () => {
-  await bunnyStream.listCollections('402767').then((res) => {
+  await bunnyStream.listCollections().then((res) => {
     collections.value.push(...res.items)
 
     console.log(collections)

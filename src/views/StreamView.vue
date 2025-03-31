@@ -4,7 +4,8 @@ import { ref, type Ref } from 'vue'
 // imprt stream here
 const url: Ref<string | undefined> = ref(undefined)
 const loadVideo = (event: Event) => {
-  url.value = event.target!.value
+  const target = event.target as HTMLInputElement
+  url.value = target.value
 }
 const iframeSrc = `https://iframe.mediadelivery.net/embed/402767/01e24fcd-6c50-496b-a421-e8094167aaab?autoplay=true`
 </script>
