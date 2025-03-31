@@ -3,9 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import EncryptView from '../views/EncryptView.vue'
 import DecryptView from '@/views/DecryptView.vue'
 import StreamView from '@/views/StreamView.vue'
-import StreamLibrariesView from '@/views/StreamLibrariesView.vue'
+import StreamLibrariesView from '@/views/stream/CollectionsView.vue'
 import StreamVideoView from '@/views/StreamVideoView.vue'
-import StreamLibraryView from '@/views/StreamLibraryView.vue'
+import StreamLibraryView from '@/views/stream/CollectionView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,8 +33,13 @@ const router = createRouter({
     },
     {
       path: '/stream/collections/:collectionId/video/:videoId',
-      name: 'libraries',
+      name: 'video',
       component: StreamVideoView,
+    },
+    {
+      path: '/stream/view',
+      name: 'view',
+      component: StreamView,
     },
 
     // { path: '/keygen', name: 'keygen', component: () => import('../views/AboutView.vue') },

@@ -8,6 +8,7 @@
     >
       <slot name="header">Header</slot>
     </h2>
+    <hr />
     <div
       class="flex flex-col justify-center items-center bg-white w-full h-full rounded-xs rounded-t-none p-10"
     >

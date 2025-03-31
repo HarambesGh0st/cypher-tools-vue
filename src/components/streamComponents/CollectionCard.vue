@@ -24,7 +24,9 @@ const imageUrl = ''
         >Manage</PrimaryButton
       >
       <!-- TODO: create delete button component -->
-      <button class="bg-red-400 border border-red-500 py-2 px-4 text-paper hover:cursor-pointer">
+      <button
+        class="bg-red-500 py-2 px-4 text-paper hover:cursor-pointer hover:bg-red-700 hover:text-white transition-colors ease-in-out duration-300"
+      >
         Delete
       </button>
     </div>

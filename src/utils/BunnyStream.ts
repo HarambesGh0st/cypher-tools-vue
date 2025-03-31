@@ -40,13 +40,13 @@ class BunnyStream {
     )
   }
 
-  async getLibrary(libraryId: string): Promise<any> {
-    return this.request(`${this.baseUrl}/${libraryId}`, { method: 'GET' }, this.libraryApiKey)
+  async getLibrary(): Promise<any> {
+    return this.request(`${this.baseUrl}/${this.libraryId}`, { method: 'GET' }, this.libraryApiKey)
   }
 
-  async listCollections(libraryId: string): Promise<any> {
+  async listCollections(): Promise<any> {
     return this.request(
-      `${this.baseUrl}/${libraryId}/collections`,
+      `${this.baseUrl}/${this.libraryId}/collections?includeThumbnails=true`,
       { method: 'GET' },
       this.libraryApiKey,
     )
@@ -72,14 +72,23 @@ class BunnyStream {
       this.libraryApiKey,
     )
   }
+  async getCollectionVideos(collectionId: string): Promise<any> {
+    return this.request(
+      `${this.baseUrl}/${this.libraryId}/videos?collection=${collectionId}`,
+      {
+        method: 'GET',
+      },
+      this.libraryApiKey,
+    )
+  }
 
-  async uploadVideo(title: string, file: Buffer, fileName: string): Promise<any> {
+  async uploadVideo(fileName: string, file: File, collectionId: string): Promise<any> {
     // Create video entry
     const createResponse = await this.request(
       `${this.baseUrl}/${this.libraryId}/videos`,
       {
         method: 'POST',
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({ title: fileName, collectionId: collectionId }),
       },
       this.libraryApiKey,
     )
