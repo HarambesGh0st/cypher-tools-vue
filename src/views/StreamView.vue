@@ -26,13 +26,14 @@ console.log(isElectron)
         <!-- TODO: create add new button -->
       </div>
       <hr class="mx-5 text-zinc-300" />
-      <div class="w-full h-full flex justify-center items-center p-5">
+      <div class="flex justify-center items-center h-full w-full p-5">
         <input v-if="!key" type="text" @change="loadVideo" class="border w-1/2 h-8 p-2" />
         <iframe
           v-else
           :src="iframeSrcURL"
           frameborder="0"
-          class="border-10 w-190 h-120 border-saphire-200/50 opacity-100 shadow-2xl shadow-zinc-800 bg-zinc-800/80 z-50"
+          class="border-0 w-9/12 h-9/12 border-saphire-200/50 opacity-100 shadow-2xl shadow-zinc-800 bg-zinc-800/80 z-50"
+          allowfullscreen="true"
         ></iframe>
       </div>
     </div>
