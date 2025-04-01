@@ -68,12 +68,12 @@ const resetTool = () => {
         </p>
 
         <div class="flex justify-center space-x-1 w-5/6">
-          <a class="h-8 border border-zinc-300 p-1 text-ellipsis overflow-hidden">{{
-            decryptLink
-          }}</a>
+          <p class="h-8 w-3/4 border border-zinc-300 px-2 overflow-hidden text-ellipsis py-1">
+            {{ decryptLink }}
+          </p>
 
           <button
-            class="border border-[#054dff] h-8 p-1 bg-zinc-100 text-[#054dff] rounded-xs text-center flex justify-center items-center"
+            class="border border-[#054dff] h-8 p-1 bg-zinc-100 text-[#054dff] rounded-xs text-center flex justify-center items-center hover:cursor-pointer"
             @click.prevent="copyToClipboard(decryptLink)"
           >
             Copy

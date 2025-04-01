@@ -9,6 +9,7 @@ const links = [
   // { path: '/keygen', text: 'Key Generator' },
   { path: '/pricing', text: 'Pricing' },
   { path: '/book-demo', text: 'Book a Demo' },
+  { path: './stream/view', text: 'Viewer' },
 ]
 </script>
 
