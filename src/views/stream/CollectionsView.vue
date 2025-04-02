@@ -19,8 +19,6 @@ const collections: Ref<Collection[]> = ref([])
 onMounted(async () => {
   await bunnyStream.listCollections().then((res) => {
     collections.value.push(...res.items)
-
-    console.log(collections)
   })
 })
 </script>

@@ -19,32 +19,31 @@ const encryptFile = async (file: File | undefined) => {
 
     const fileBuffer = await file!.arrayBuffer() // file to byte array
     const iv = window.crypto.getRandomValues(new Uint8Array(12)) // create initialization vector
-    generateKey().then(async (key) => {
-      // encrypt file
-      const encryptedFileBuffer = await encrypt(iv, key, fileBuffer)
-      // generate decrypt link
-      const exportedKey = await window.crypto.subtle.exportKey('jwk', key)
-      const encryptedKeyString = await encryptKeyString(exportedKey.k!)
-      // construct file for download
-      const blob = new Blob([iv, encryptedFileBuffer], {
-        type: file!.type,
-      })
-      setTimeout(() => {
-        const link = document.createElement('a')
-        link.href = URL.createObjectURL(blob)
-        link.download = `enc-${file!.name}`
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        decryptLink.value = `${window.location.origin}/decrypt#${encryptedKeyString}`
-        isPending.value = false
-        notificationStore.addNotification({
-          message: `Encryption succesful.`,
-          status: 'success',
-          autoClear: true,
-        })
-      }, 1000)
+    const key = await generateKey()
+    // encrypt file
+    const encryptedFileBuffer = await encrypt(iv, key, fileBuffer)
+    // generate decrypt link
+    const exportedKey = await window.crypto.subtle.exportKey('jwk', key)
+    const encryptedKeyString = await encryptKeyString(exportedKey.k!)
+    // construct file for download
+    const blob = new Blob([iv, encryptedFileBuffer], {
+      type: file!.type,
     })
+    setTimeout(() => {
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(blob)
+      link.download = `enc-${file!.name}`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      decryptLink.value = `${window.location.origin}/decrypt#${encryptedKeyString}`
+      isPending.value = false
+      notificationStore.addNotification({
+        message: `Encryption succesful.`,
+        status: 'success',
+        autoClear: true,
+      })
+    }, 1000)
   } catch (error) {
     isPending.value = false
     console.error(error)

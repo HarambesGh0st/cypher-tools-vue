@@ -15,9 +15,8 @@ const decryptFile = async (file: File | undefined) => {
 
     isPending.value = true
     // get the jwk from the url
-    const fragment = window.location.hash.slice(1)
+    const fragment = window.location.hash.slice(1) // remove the hash from the encrypted key
     const encryptionKey = await decryptKeyString(fragment)
-    console.log(encryptionKey)
     const cryptoKey = await importKey(encryptionKey)
     const fileBuffer = await file!.arrayBuffer()
     const iv = new Uint8Array(await fileBuffer.slice(0, 12)) // Extract IV

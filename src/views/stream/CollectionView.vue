@@ -39,7 +39,6 @@ onMounted(() => {
   bunnyStream.getCollectionVideos(collectionId).then((res) => {
     videosData.value.push(...res.items)
   })
-  console.log(videosData)
 })
 
 const selectedFile: Ref<File | undefined> = ref(undefined)
@@ -53,8 +52,7 @@ const uploadFile = async () => {
       selectedFile.value!,
       collectionId,
     )
-    viewersKey.value = `402767.${res.videoId}`
-    console.log(viewersKey.value)
+    viewersKey.value = `402767.${res.videoId}` // hard coded library id for now until a user data base is implemented
     isPending.value = false
     notifications.addNotification({
       message: 'Upload Sucessful',
